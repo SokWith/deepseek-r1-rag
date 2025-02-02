@@ -3,3 +3,4 @@ langchain_community
 langchain_experimental
 faiss-cpu
 sentence-transformers
+pdfplumber

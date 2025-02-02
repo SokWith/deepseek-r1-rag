@@ -73,7 +73,8 @@ if uploaded_file is not None:
     retriever = vector.as_retriever(search_type="similarity", search_kwargs={"k": 3})
 
     # LLM 정의
-    llm = Ollama(model="deepseek-r1:14b")
+    # llm = Ollama(model="deepseek-r1:14b")
+    llm = Ollama(model="llama3.2:1b")#, device="mps")
 
     # 시스템 프롬프트 정의
     system_prompt = (
