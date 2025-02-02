@@ -9,10 +9,10 @@ from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
 # 색상 팔레트 정의
-primary_color = "#1E90FF"  # 기본 색상
+primary_color = "#1E90FF"  # 기본 색상 (파란색 유지)
 secondary_color = "#FF6347"  # 보조 색상
-background_color = "#F5F5F5"  # 배경 색상
-text_color = "#4561e9"  # 텍스트 색상
+background_color = "#F5F5F5"  # 배경 색상 (유지)
+text_color = "#000000"  # 텍스트 색상을 검정색으로 변경
 
 # 사용자 정의 CSS 적용
 st.markdown(f"""
@@ -74,7 +74,7 @@ if uploaded_file is not None:
 
     # LLM 정의
     # llm = Ollama(model="deepseek-r1:14b")
-    llm = Ollama(model="llama3.2:1b")#, device="mps")
+    llm = Ollama(model="deepseek-r1:7b")#, device="mps")
 
     # 시스템 프롬프트 정의
     system_prompt = (
