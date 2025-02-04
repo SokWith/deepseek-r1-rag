@@ -8,43 +8,43 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
-# 색상 팔레트 정의
-primary_color = "#1E90FF"  # 기본 색상 (파란색 유지)
-secondary_color = "#FF6347"  # 보조 색상
-background_color = "#F5F5F5"  # 배경 색상 (유지)
-text_color = "#000000"  # 텍스트 색상을 검정색으로 변경
+# # 색상 팔레트 정의
+# primary_color = "#1E90FF"  # 기본 색상
+# secondary_color = "#FF6347"  # 보조 색상
+# background_color = "#F5F5F5"  # 배경 색상
+# text_color = "#000000"  # 텍스트 색상
 
 # 사용자 정의 CSS 적용
-st.markdown(f"""
-    <style>
-    .stApp {{
-        background-color: {background_color};
-        color: {text_color};
-    }}
-    .stButton>button {{
-        background-color: {primary_color};
-        color: white;
-        border-radius: 5px;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-    }}
-    .stTextInput>div>div>input {{
-        border: 2px solid {primary_color};
-        border-radius: 5px;
-        padding: 10px;
-        font-size: 16px;
-    }}
-    .stFileUploader>div>div>div>button {{
-        background-color: {secondary_color};
-        color: white;
-        border-radius: 5px;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-    }}
-    </style>
-""", unsafe_allow_html=True)
+# st.markdown(f"""
+#     <style>
+#     .stApp {{
+#         background-color: {background_color};
+#         color: {text_color};
+#     }}
+#     .stButton>button {{
+#         background-color: {primary_color};
+#         color: white;
+#         border-radius: 5px;
+#         border: none;
+#         padding: 10px 20px;
+#         font-size: 16px;
+#     }}
+#     .stTextInput>div>div>input {{
+#         border: 2px solid {primary_color};
+#         border-radius: 5px;
+#         padding: 10px;
+#         font-size: 16px;
+#     }}
+#     .stFileUploader>div>div>div>button {{
+#         background-color: {secondary_color};
+#         color: white;
+#         border-radius: 5px;
+#         border: none;
+#         padding: 10px 20px;
+#         font-size: 16px;
+#     }}
+#     </style>
+# """, unsafe_allow_html=True)
 
 # Streamlit 앱 제목 설정
 st.title("DeepSeek R1 & Ollama를 활용한 RAG 시스템 구축")
@@ -74,7 +74,7 @@ if uploaded_file is not None:
 
     # LLM 정의
     # llm = Ollama(model="deepseek-r1:14b")
-    llm = Ollama(model="deepseek-r1:7b")#, device="mps")
+    llm = Ollama(model="deepseek-r1:32b")#, device="mps")
 
     # 시스템 프롬프트 정의
     system_prompt = (
