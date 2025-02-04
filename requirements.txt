@@ -1,6 +1,11 @@
-streamlit
-langchain_community
-langchain_experimental
-faiss-cpu
-sentence-transformers
-pdfplumber
+# streamlit
+# langchain_community
+# langchain_experimental
+# faiss-cpu
+# sentence-transformers
+# pdfplumber
+
+streamlit>=1.31.0
+langchain>=0.1.0
+langchain-community>=0.0.19
+watchdog>=3.0.0
