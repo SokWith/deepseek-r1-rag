@@ -3,13 +3,13 @@ from langchain_community.llms import Ollama
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
-# 페이지 설정
+# 页面设置
 st.set_page_config(
-    page_title="Deepseek 챗봇",
+    page_title="Deepseek 聊天机器人",
     page_icon="🤖",
 )
 
-# 기본 스타일 설정
+# 基本样式设置
 st.markdown("""
     <style>
     .stApp {
@@ -27,45 +27,44 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 모델 정보 표시
-st.markdown('<div class="model-name">🤖 Model: Deepseek-r1:32b</div>', unsafe_allow_html=True)
+# 模型信息显示
+st.markdown('<div class="model-name">🤖 模型: Deepseek-r1:32b</div>', unsafe_allow_html=True)
 
-# 제목
-st.title("🤖 Deepseek 챗봇")
+# 标题
+st.title("🤖 Deepseek 聊天机器人")
 
-# 세션 상태 초기화
+# 会话状态初始化
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# 기본 프롬프트 설정
-SYSTEM_PROMPT = """당신은 한국어로만 대답하는 AI 어시스턴트입니다. 
-어떤 질문이 들어와도 반드시 한국어로만 답변해야 합니다.
-영어나 다른 언어로 된 질문이 들어와도 한국어로 답변하세요.
-전문적인 내용도 모두 한국어로 설명하세요.
+# 基本提示设置
+SYSTEM_PROMPT = """您是一个只用中文回答问题的 AI 助手。
+无论收到什么语言的问题，您都必须用中文回答。
+即使是专业内容，也请用中文解释。
 
-규칙:
-1. 항상 한국어로만 답변할 것
-2. 전문 용어도 가능한 한국어로 설명할 것
-3. 명확하고 이해하기 쉽게 설명할 것
-4. 공손하고 정중한 말투를 사용할 것
+规则：
+1. 始终用中文回答
+2. 尽可能用中文解释专业术语
+3. 解释要清晰易懂
+4. 使用礼貌、恭敬的语气
 
-이제 대화를 시작하겠습니다."""
+现在开始对话。"""
 
-# 사이드바 설정
+# 侧边栏设置
 with st.sidebar:
-    st.header("설정")
-    temperature = st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.7, step=0.1)
+    st.header("设置")
+    temperature = st.slider("温度", min_value=0.0, max_value=1.0, value=0.7, step=0.1)
     
-    if st.button("대화 내역 지우기"):
+    if st.button("清除对话记录"):
         st.session_state.messages = []
         st.rerun()
     
     st.markdown("---")
-    st.markdown("### 사용 방법")
+    st.markdown("### 使用方法")
     st.markdown("""
-    1. 메시지를 입력하세요
-    2. Temperature로 창의성을 조절하세요
-    3. '대화 내역 지우기'로 새로운 대화를 시작하세요
+    1. 输入消息
+    2. 使用温度调节创造力
+    3. 点击“清除对话记录”开始新对话
     """)
 
 def get_llm():
@@ -76,41 +75,40 @@ def get_llm():
             callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
         )
     except Exception as e:
-        st.error(f"Ollama 연결 오류: {str(e)}")
-        st.info("Ollama가 실행 중인지 확인해주세요.")
+        st.error(f"Ollama 连接错误: {str(e)}")
+        st.info("请确保 Ollama 已启动。")
         return None
     
-    
-# 메시지 이력 표시
+# 显示消息历史
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.write(message["content"])
 
-# 채팅 입력 및 응답
-if prompt := st.chat_input("메시지를 입력하세요..."):
-    # 사용자 메시지 표시
+# 聊天输入及回复
+if prompt := st.chat_input("请输入消息..."):
+    # 显示用户消息
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.write(prompt)
 
-    # AI 응답 생성
+    # 生成 AI 回复
     with st.chat_message("assistant"):
         try:
             llm = get_llm()
             if llm:
                 message_placeholder = st.empty()
-                with st.spinner("응답 생성 중..."):
-                    # 시스템 프롬프트와 사용자 프롬프트 결합
-                    full_prompt = f"{SYSTEM_PROMPT}\n\n사용자: {prompt}\n\n응답:"
+                with st.spinner("正在生成回复..."):
+                    # 结合系统提示和用户提示
+                    full_prompt = f"{SYSTEM_PROMPT}\n\n用户: {prompt}\n\n回复:"
                     
                     response = llm(full_prompt)
                     message_placeholder.write(response)
                     st.session_state.messages.append({"role": "assistant", "content": response})
         except Exception as e:
-            st.error(f"오류가 발생했습니다: {str(e)}")
+            st.error(f"发生错误: {str(e)}")
             st.info("""
-            다음 사항들을 확인해주세요:
-            1. Ollama가 실행 중인가요?
-            2. Deepseek 모델이 설치되어 있나요? (`ollama pull deepseek` 실행)
-            3. 네트워크 연결이 정상인가요?
+            请检查以下事项：
+            1. Ollama 是否已启动？
+            2. 是否已安装 Deepseek 模型？（运行 `ollama pull deepseek`）
+            3. 网络连接是否正常？
             """)
