@@ -74,11 +74,6 @@ def get_llm():
             model="deepseek-r1:32b",
             temperature=temperature,
             callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
-            additional_kwargs={
-                "gpu": True,  # 항상 GPU 사용
-                "threads": 8,
-                "mmap": True
-            }
         )
     except Exception as e:
         st.error(f"Ollama 연결 오류: {str(e)}")
